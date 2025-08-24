@@ -1,0 +1,63 @@
+COMPREHENSIVE VALIDATION SUITE REPORT
+============================================================
+
+Suite: Comprehensive Mixed-Precision Multigrid Validation
+Execution Date: 2025-08-25 00:13:37
+Total Execution Time: 62.31 seconds
+
+SUMMARY:
+Total Tests: 3
+Passed: 1
+Failed: 2
+Overall Pass Rate: 33.3%
+
+TEST TYPE BREAKDOWN:
+-------------------------
+CONVERGENCE:
+  Tests: 1
+  Passed: 0
+  Pass Rate: 0.0%
+  Avg Time: 19.43s
+
+PERFORMANCE:
+  Tests: 1
+  Passed: 1
+  Pass Rate: 100.0%
+  Avg Time: 42.88s
+
+CORRECTNESS:
+  Tests: 1
+  Passed: 0
+  Pass Rate: 0.0%
+  Avg Time: 0.00s
+
+KEY FINDINGS:
+---------------
+  ⚠ Some validation tests failed - review required
+  ⚠ Correctness issues detected
+  • Some convergence issues observed
+
+FAILED TESTS:
+---------------
+Test: correctness_validation
+  Type: correctness
+  Execution Time: 0.00s
+  Error: Details in test results
+
+Test: convergence_analysis
+  Type: convergence
+  Execution Time: 19.43s
+  Error: Details in test results
+
+PERFORMANCE METRICS:
+--------------------
+  total_benchmarks: 4.000
+  total_comparisons: 0.000
+  avg_throughput: 679.659
+
+RECOMMENDATIONS:
+---------------
+  ⚠ Significant validation issues detected
+  ⚠ System requires investigation before deployment
+  • Address failed test issues
+  • Rerun validation after fixes

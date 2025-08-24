@@ -1,0 +1,336 @@
+version: '3.8'
+
+services:
+  # Development environment with full toolchain
+  multigrid-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+    container_name: multigrid-dev
+    hostname: multigrid-dev
+    image: mixed-precision-multigrid:dev
+    ports:
+      - "8888:8888"  # Jupyter Notebook
+      - "8080:8080"  # Alternative web service
+      - "5000:5000"  # Flask/API development
+    volumes:
+      # Mount source code for development
+      - ./src:/home/multigrid/src:rw
+      - ./examples:/home/multigrid/examples:rw
+      - ./tests:/home/multigrid/tests:rw
+      - ./docs:/home/multigrid/docs:rw
+      - ./scripts:/home/multigrid/scripts:rw
+      # Mount data directories
+      - ./data:/home/multigrid/data:rw
+      - ./results:/home/multigrid/results:rw
+      # Development cache and config
+      - dev_cache:/home/multigrid/.cache
+      - dev_pip_cache:/home/multigrid/.pip_cache
+    environment:
+      - PYTHONPATH=/home/multigrid/src
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=multigrid-dev-token
+      - OMP_NUM_THREADS=4
+      - MKL_NUM_THREADS=4
+      - OPENBLAS_NUM_THREADS=4
+      - NUMEXPR_MAX_THREADS=4
+    working_dir: /home/multigrid
+    command: >
+      bash -c "
+        echo 'Starting development environment...';
+        echo 'Multigrid version:' $$(python -c 'import multigrid; print(multigrid.__version__)');
+        echo 'Starting Jupyter Lab on port 8888...';
+        jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --token=multigrid-dev-token
+      "
+    restart: unless-stopped
+    networks:
+      - multigrid-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/lab", "||", "exit", "1"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # CPU production service
+  multigrid-cpu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: cpu-production
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+    container_name: multigrid-cpu
+    hostname: multigrid-cpu
+    image: mixed-precision-multigrid:cpu
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./data:/home/multigrid/data:ro
+      - ./results:/home/multigrid/results:rw
+      - cpu_cache:/home/multigrid/.cache
+    environment:
+      - PYTHONPATH=/home/multigrid/src
+      - OMP_NUM_THREADS=8
+      - MKL_NUM_THREADS=8
+      - OPENBLAS_NUM_THREADS=8
+      - NUMEXPR_MAX_THREADS=8
+    working_dir: /home/multigrid
+    command: >
+      python -c "
+      import multigrid;
+      import time;
+      print(f'CPU Service Ready - Multigrid v{multigrid.__version__}');
+      print('Waiting for requests...');
+      while True: time.sleep(60)
+      "
+    restart: unless-stopped
+    networks:
+      - multigrid-network
+    deploy:
+      resources:
+        limits:
+          cpus: '8.0'
+          memory: 16G
+        reservations:
+          cpus: '4.0'
+          memory: 8G
+
+  # GPU production service (requires NVIDIA Docker runtime)
+  multigrid-gpu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: gpu-production
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+    container_name: multigrid-gpu
+    hostname: multigrid-gpu
+    image: mixed-precision-multigrid:gpu
+    ports:
+      - "5002:5000"
+    volumes:
+      - ./data:/home/multigrid/data:ro
+      - ./results:/home/multigrid/results:rw
+      - gpu_cache:/home/multigrid/.cache
+    environment:
+      - PYTHONPATH=/home/multigrid/src
+      - CUDA_VISIBLE_DEVICES=0
+      - NVIDIA_VISIBLE_DEVICES=0
+      - OMP_NUM_THREADS=4
+      - MKL_NUM_THREADS=4
+    working_dir: /home/multigrid
+    command: >
+      python3 -c "
+      import multigrid;
+      import cupy as cp;
+      import time;
+      print(f'GPU Service Ready - Multigrid v{multigrid.__version__}');
+      print(f'GPU Devices Available: {cp.cuda.runtime.getDeviceCount()}');
+      print('Waiting for requests...');
+      while True: time.sleep(60)
+      "
+    restart: unless-stopped
+    networks:
+      - multigrid-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu, compute, utility]
+    # GPU runtime configuration (Docker Compose v3.8+ with GPU support)
+    runtime: nvidia
+    profiles:
+      - gpu  # Only start with --profile gpu
+
+  # Benchmarking service
+  multigrid-benchmark:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: cpu-production
+    container_name: multigrid-benchmark  
+    hostname: multigrid-benchmark
+    image: mixed-precision-multigrid:benchmark
+    volumes:
+      - ./benchmarks:/home/multigrid/benchmarks:rw
+      - ./results:/home/multigrid/results:rw
+      - benchmark_cache:/home/multigrid/.cache
+    environment:
+      - PYTHONPATH=/home/multigrid/src
+      - BENCHMARK_OUTPUT_DIR=/home/multigrid/results
+      - OMP_NUM_THREADS=8
+    working_dir: /home/multigrid
+    command: >
+      bash -c "
+        echo 'Running comprehensive benchmarks...';
+        python -m multigrid.benchmarks --output-dir /home/multigrid/results --verbose;
+        echo 'Benchmarks completed. Results in /home/multigrid/results';
+        tail -f /dev/null
+      "
+    networks:
+      - multigrid-network
+    profiles:
+      - benchmark
+
+  # Testing service
+  multigrid-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: multigrid-test
+    hostname: multigrid-test
+    volumes:
+      - ./src:/home/multigrid/src:ro
+      - ./tests:/home/multigrid/tests:ro
+      - ./results:/home/multigrid/results:rw
+      - test_cache:/home/multigrid/.cache
+    environment:
+      - PYTHONPATH=/home/multigrid/src
+      - PYTEST_ARGS=--verbose --cov=multigrid --cov-report=html:/home/multigrid/results/coverage
+    working_dir: /home/multigrid
+    command: >
+      bash -c "
+        echo 'Running test suite...';
+        python -m pytest tests/ $$PYTEST_ARGS;
+        echo 'Tests completed. Coverage report in results/coverage';
+      "
+    networks:
+      - multigrid-network
+    profiles:
+      - test
+
+  # Documentation service
+  multigrid-docs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: multigrid-docs
+    hostname: multigrid-docs
+    ports:
+      - "8000:8000"  # Documentation server
+    volumes:
+      - ./docs:/home/multigrid/docs:rw
+      - ./src:/home/multigrid/src:ro
+      - docs_cache:/home/multigrid/.cache
+    environment:
+      - PYTHONPATH=/home/multigrid/src
+    working_dir: /home/multigrid/docs
+    command: >
+      bash -c "
+        echo 'Building and serving documentation...';
+        if [ -f 'conf.py' ]; then
+          sphinx-build -b html . _build/html;
+          python -m http.server 8000 --directory _build/html;
+        else
+          echo 'No Sphinx documentation found, serving Jekyll site...';
+          jekyll serve --host 0.0.0.0 --port 8000;
+        fi
+      "
+    networks:
+      - multigrid-network
+    profiles:
+      - docs
+
+  # Database for storing results (optional)
+  postgres:
+    image: postgres:15-alpine
+    container_name: multigrid-postgres
+    hostname: multigrid-postgres
+    environment:
+      - POSTGRES_DB=multigrid
+      - POSTGRES_USER=multigrid
+      - POSTGRES_PASSWORD=multigrid_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    ports:
+      - "5432:5432"
+    networks:
+      - multigrid-network
+    profiles:
+      - database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U multigrid -d multigrid"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: multigrid-redis
+    hostname: multigrid-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - multigrid-network
+    profiles:
+      - cache
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # Monitoring service
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: multigrid-prometheus
+    hostname: multigrid-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - multigrid-network
+    profiles:
+      - monitoring
+
+# Named volumes for persistence
+volumes:
+  dev_cache:
+    driver: local
+  dev_pip_cache:
+    driver: local
+  cpu_cache:
+    driver: local
+  gpu_cache:
+    driver: local
+  benchmark_cache:
+    driver: local
+  test_cache:
+    driver: local
+  docs_cache:
+    driver: local
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+
+# Networks
+networks:
+  multigrid-network:
+    driver: bridge
+    name: multigrid-network
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

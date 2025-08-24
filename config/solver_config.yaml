@@ -1,0 +1,7 @@
+# Use the corrected multigrid.py as default
+default_solver: "corrected_multigrid"
+convergence_tolerance: 0.075  # More stable than aggressive settings
+max_iterations: 100
+precision_management:
+  enable_mixed_precision: true
+  promotion_threshold: 0.1

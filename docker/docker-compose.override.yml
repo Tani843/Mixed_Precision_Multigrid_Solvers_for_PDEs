@@ -1,0 +1,101 @@
+# Docker Compose override file for local development
+# This file provides environment-specific overrides for development
+
+version: '3.8'
+
+services:
+  # Development service overrides
+  multigrid-dev:
+    environment:
+      # Add local development environment variables
+      - DEV_MODE=true
+      - LOG_LEVEL=DEBUG
+      - PYTHONPATH=/home/multigrid/src:/home/multigrid
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-multigrid-dev}
+      - JUPYTER_LAB_ENABLE=yes
+      - MPLBACKEND=Agg  # Non-interactive matplotlib backend
+    volumes:
+      # Additional development mounts
+      - ~/.ssh:/home/multigrid/.ssh:ro  # SSH keys for git operations
+      - ~/.gitconfig:/home/multigrid/.gitconfig:ro  # Git configuration
+      - ~/.bashrc:/home/multigrid/.bashrc_host:ro  # Host bash configuration
+    # Override command for development
+    command: >
+      bash -c "
+        echo '🚀 Starting Mixed-Precision Multigrid Development Environment';
+        echo '📦 Multigrid version:' $$(python -c 'import multigrid; print(multigrid.__version__)');
+        echo '🔧 Development mode enabled';
+        echo '📝 Starting Jupyter Lab on port 8888';
+        echo '🌐 Access at: http://localhost:8888/lab?token=$$JUPYTER_TOKEN';
+        echo '📊 Monitoring available at various ports';
+        echo '';
+        echo '💡 Useful commands:';
+        echo '   - Run tests: docker-compose exec multigrid-dev python -m pytest';
+        echo '   - Interactive shell: docker-compose exec multigrid-dev bash';
+        echo '   - Install package: docker-compose exec multigrid-dev pip install -e .';
+        echo '';
+        # Create useful aliases and environment
+        echo 'alias ll=\"ls -la\"' >> ~/.bashrc;
+        echo 'alias pytest=\"python -m pytest\"' >> ~/.bashrc;
+        echo 'alias jupyter=\"jupyter lab --ip=0.0.0.0 --allow-root\"' >> ~/.bashrc;
+        source ~/.bashrc;
+        # Start Jupyter Lab
+        jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --token=$$JUPYTER_TOKEN --notebook-dir=/home/multigrid
+      "
+
+  # GPU service with local GPU access
+  multigrid-gpu:
+    environment:
+      - DEV_MODE=true
+      - LOG_LEVEL=DEBUG
+      - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}
+      - NVIDIA_VISIBLE_DEVICES=${NVIDIA_VISIBLE_DEVICES:-0}
+    # GPU runtime for docker-compose
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: ${GPU_COUNT:-1}
+              capabilities: [gpu, compute, utility]
+
+  # Add a monitoring stack for development
+  grafana:
+    image: grafana/grafana:latest
+    container_name: multigrid-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=multigrid
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./docker/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    networks:
+      - multigrid-network
+    profiles:
+      - monitoring
+
+  # Node exporter for system metrics
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: multigrid-node-exporter
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - multigrid-network
+    profiles:
+      - monitoring
+
+# Additional volumes for development
+volumes:
+  grafana_data:
+    driver: local

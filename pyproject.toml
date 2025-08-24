@@ -1,0 +1,231 @@
+[build-system]
+requires = [
+    "setuptools>=64.0",
+    "wheel>=0.37.0",
+    "numpy>=1.21.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mixed-precision-multigrid"
+dynamic = ["version"]
+description = "High-performance mixed-precision multigrid solvers for partial differential equations with GPU acceleration"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Tanisha Gupta", email = "tanisha.gupta@research.edu"},
+]
+maintainers = [
+    {name = "Tanisha Gupta", email = "tanisha.gupta@research.edu"},
+]
+keywords = [
+    "multigrid", "pde", "numerical-methods", "finite-difference", "mixed-precision",
+    "gpu", "cuda", "high-performance-computing", "scientific-computing", "linear-algebra",
+    "partial-differential-equations", "iterative-methods", "computational-mathematics"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10", 
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Operating System :: OS Independent",
+    "Environment :: GPU :: NVIDIA CUDA",
+    "Natural Language :: English",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy>=1.21.0,<2.0",
+    "scipy>=1.9.0",
+    "matplotlib>=3.5.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+gpu = [
+    "cupy>=11.0.0",
+    "numba>=0.58.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-benchmark>=4.0.0",
+    "pytest-xdist>=3.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "isort>=5.12.0",
+    "pre-commit>=3.0.0",
+]
+performance = [
+    "psutil>=5.9.0",
+    "memory-profiler>=0.61.0",
+    "line-profiler>=4.0.0",
+    "py-spy>=0.3.0",
+]
+visualization = [
+    "seaborn>=0.12.0",
+    "plotly>=5.17.0",
+    "jupyter>=1.0.0",
+    "notebook>=7.0.0",
+    "ipywidgets>=8.0.0",
+]
+docs = [
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=1.3.0",
+    "sphinx-autodoc-typehints>=1.24.0",
+    "myst-parser>=2.0.0",
+    "sphinx-copybutton>=0.5.0",
+]
+mpi = [
+    "mpi4py>=3.1.4",
+]
+all = [
+    "cupy>=11.0.0",
+    "numba>=0.58.0",
+    "seaborn>=0.12.0",
+    "plotly>=5.17.0",
+    "jupyter>=1.0.0",
+    "notebook>=7.0.0",
+    "psutil>=5.9.0",
+    "memory-profiler>=0.61.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/tanishagupta/Mixed_Precision_Multigrid_Solvers_for_PDEs"
+Documentation = "https://mixed-precision-multigrid.readthedocs.io/"
+Repository = "https://github.com/tanishagupta/Mixed_Precision_Multigrid_Solvers_for_PDEs.git"
+"Bug Tracker" = "https://github.com/tanishagupta/Mixed_Precision_Multigrid_Solvers_for_PDEs/issues"
+"Benchmarks" = "https://tanishagupta.github.io/Mixed_Precision_Multigrid_Solvers_for_PDEs/results/"
+"Discussions" = "https://github.com/tanishagupta/Mixed_Precision_Multigrid_Solvers_for_PDEs/discussions"
+
+[project.scripts]
+multigrid-solve = "multigrid.cli:main"
+multigrid-benchmark = "multigrid.benchmarks.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["multigrid*"]
+
+[tool.setuptools.package-data]
+multigrid = ["config/*.yaml", "config/*.json", "py.typed"]
+
+[tool.setuptools.dynamic]
+version = {attr = "multigrid.__version__"}
+
+# Development tools configuration
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # Directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["multigrid"]
+known_third_party = ["numpy", "scipy", "matplotlib", "pytest", "setuptools"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = [
+    "cupy.*",
+    "numba.*",
+    "matplotlib.*",
+    "seaborn.*",
+    "plotly.*",
+    "mpi4py.*"
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=multigrid",
+    "--cov-report=html",
+    "--cov-report=term-missing:skip-covered",
+    "--cov-fail-under=85",
+]
+testpaths = ["tests"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "gpu: marks tests as requiring GPU",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "regression: marks tests as regression tests",
+    "benchmark: marks tests as benchmarks",
+    "compatibility: marks tests as platform compatibility tests",
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "setup.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+exclude = [".git", "__pycache__", "docs/source/conf.py", "old", "build", "dist"]
+per-file-ignores = [
+    "__init__.py:F401",
+]

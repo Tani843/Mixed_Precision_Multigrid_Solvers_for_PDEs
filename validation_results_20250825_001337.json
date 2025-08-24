@@ -1,0 +1,63 @@
+{
+  "suite_name": "Comprehensive Mixed-Precision Multigrid Validation",
+  "total_tests": 3,
+  "passed_tests": 1,
+  "failed_tests": 2,
+  "total_execution_time": 62.313403844833374,
+  "summary": {
+    "overall_pass_rate": 0.3333333333333333,
+    "test_type_summary": {
+      "convergence": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0,
+        "avg_execution_time": 19.428974866867065
+      },
+      "performance": {
+        "total": 1,
+        "passed": 1,
+        "pass_rate": 1.0,
+        "avg_execution_time": 42.88396906852722
+      },
+      "correctness": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0,
+        "avg_execution_time": 0.00040602684020996094
+      }
+    },
+    "performance_metrics": {
+      "total_benchmarks": 4,
+      "total_comparisons": 0,
+      "avg_throughput": 679.6593373481243
+    },
+    "key_findings": [
+      "\u26a0 Some validation tests failed - review required",
+      "\u26a0 Correctness issues detected",
+      "\u2022 Some convergence issues observed"
+    ]
+  },
+  "test_results": [
+    {
+      "test_name": "correctness_validation",
+      "test_type": "correctness",
+      "passed": false,
+      "execution_time": 0.00040602684020996094,
+      "error_message": null
+    },
+    {
+      "test_name": "convergence_analysis",
+      "test_type": "convergence",
+      "passed": false,
+      "execution_time": 19.428974866867065,
+      "error_message": null
+    },
+    {
+      "test_name": "performance_benchmarking",
+      "test_type": "performance",
+      "passed": true,
+      "execution_time": 42.88396906852722,
+      "error_message": null
+    }
+  ]
+}

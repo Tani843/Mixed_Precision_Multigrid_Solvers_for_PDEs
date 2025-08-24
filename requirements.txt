@@ -1,0 +1,52 @@
+# Mixed-Precision Multigrid Solvers for PDEs
+# Core numerical computing dependencies
+
+# Essential numerical libraries
+numpy>=1.21.0,<2.0
+scipy>=1.9.0
+matplotlib>=3.5.0
+
+# Configuration management
+pyyaml>=6.0
+dataclasses; python_version<"3.7"
+
+# Testing framework
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-benchmark>=4.0.0
+
+# Performance monitoring (optional)
+psutil>=5.8.0
+
+# Development and code quality
+black>=22.0.0
+flake8>=5.0.0
+mypy>=1.0.0
+
+# Documentation (optional)
+sphinx>=5.0.0
+sphinx-rtd-theme>=1.0.0
+sphinx-autodoc-typehints>=1.19.0
+
+# Jupyter notebook support (optional)
+jupyter>=1.0.0
+notebook>=6.4.0
+ipython>=8.0.0
+
+# Visualization enhancements (optional)  
+seaborn>=0.11.0
+plotly>=5.0.0
+
+# Memory profiling (optional)
+memory-profiler>=0.60.0
+
+# Parallel computing (optional)
+mpi4py>=3.1.0; platform_system!="Windows"
+
+# High-performance computing extensions (optional)
+numba>=0.56.0
+cupy>=11.0.0; platform_system=="Linux" and platform_machine=="x86_64"
+
+# Type checking
+types-PyYAML>=6.0.0
+types-setuptools>=57.0.0

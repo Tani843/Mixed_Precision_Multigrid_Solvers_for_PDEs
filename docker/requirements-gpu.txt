@@ -1,0 +1,28 @@
+# GPU-specific requirements for Docker images
+# These are installed in addition to the base requirements.txt
+
+# CUDA and GPU acceleration (CUDA 11.8 compatible)
+cupy-cuda11x>=11.0.0,<13.0.0
+numba>=0.58.0
+
+# GPU memory management and profiling  
+nvidia-ml-py>=11.495.46
+pynvml>=11.4.1
+
+# GPU profiling and monitoring tools
+gpustat>=1.1.1
+py3nvml>=0.2.7
+memory-profiler>=0.61.0
+
+# Additional GPU utilities
+py-spy>=0.3.14
+
+# Communication libraries for multi-GPU setups
+nccl>=2.18.0; sys_platform=="linux"
+
+# Optional: GPU-accelerated scientific libraries
+# Uncomment if needed for specific applications
+# cudf>=23.0.0  # GPU DataFrames
+# cuml>=23.0.0  # GPU machine learning
+# cuspatial>=23.0.0  # GPU spatial analytics
+# cupy-scipy>=11.0.0  # GPU-accelerated SciPy functions

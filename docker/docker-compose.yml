@@ -1,0 +1,163 @@
+version: '3.8'
+
+services:
+  # CPU-only production service
+  multigrid-cpu:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      target: cpu-production
+    image: mixed-precision-multigrid:cpu
+    container_name: multigrid-cpu
+    restart: unless-stopped
+    volumes:
+      - ../examples:/home/multigrid/examples:ro
+      - ../benchmarks:/home/multigrid/benchmarks:ro
+      - ./data:/home/multigrid/data
+    environment:
+      - PYTHONPATH=/home/multigrid/src
+    networks:
+      - multigrid-net
+    healthcheck:
+      test: ["CMD", "python", "-c", "import multigrid; print('OK')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # GPU-enabled production service
+  multigrid-gpu:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      target: gpu-production
+    image: mixed-precision-multigrid:gpu
+    container_name: multigrid-gpu
+    restart: unless-stopped
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - PYTHONPATH=/home/multigrid/src
+    volumes:
+      - ../examples:/home/multigrid/examples:ro
+      - ../benchmarks:/home/multigrid/benchmarks:ro
+      - ./data:/home/multigrid/data
+    networks:
+      - multigrid-net
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  # Development environment with Jupyter
+  multigrid-dev:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      target: development
+    image: mixed-precision-multigrid:dev
+    container_name: multigrid-dev
+    restart: unless-stopped
+    ports:
+      - "8888:8888"  # Jupyter notebook
+      - "8000:8000"  # Documentation server
+    volumes:
+      - ../:/home/multigrid/workspace
+      - ./data:/home/multigrid/data
+      - ./notebooks:/home/multigrid/notebooks
+    environment:
+      - PYTHONPATH=/home/multigrid/workspace/src
+      - JUPYTER_ENABLE_LAB=yes
+    networks:
+      - multigrid-net
+    command: >
+      bash -c "
+        cd /home/multigrid/workspace &&
+        jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+      "
+
+  # Benchmarking service
+  multigrid-benchmark:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      target: cpu-production
+    image: mixed-precision-multigrid:cpu
+    container_name: multigrid-benchmark
+    volumes:
+      - ../benchmarks:/home/multigrid/benchmarks:ro
+      - ./benchmark-results:/home/multigrid/results
+    environment:
+      - PYTHONPATH=/home/multigrid/src
+    networks:
+      - multigrid-net
+    command: >
+      bash -c "
+        cd /home/multigrid &&
+        python -m multigrid.benchmarks.performance_benchmark --output-dir results
+      "
+    profiles:
+      - benchmarking
+
+  # Documentation builder
+  docs-builder:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      target: development
+    image: mixed-precision-multigrid:dev
+    container_name: multigrid-docs
+    volumes:
+      - ../docs:/home/multigrid/docs
+      - ./docs-output:/home/multigrid/docs-build
+    environment:
+      - PYTHONPATH=/home/multigrid/workspace/src
+    networks:
+      - multigrid-net
+    command: >
+      bash -c "
+        cd /home/multigrid/docs/sphinx &&
+        sphinx-build -b html . ../docs-build/html
+      "
+    profiles:
+      - docs
+
+  # Testing service
+  multigrid-test:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      target: development
+    image: mixed-precision-multigrid:dev
+    container_name: multigrid-test
+    volumes:
+      - ../:/home/multigrid/workspace
+      - ./test-results:/home/multigrid/test-results
+    environment:
+      - PYTHONPATH=/home/multigrid/workspace/src
+    networks:
+      - multigrid-net
+    command: >
+      bash -c "
+        cd /home/multigrid/workspace &&
+        python -m pytest tests/ -v --cov=multigrid --cov-report=html:/home/multigrid/test-results/coverage
+      "
+    profiles:
+      - testing
+
+networks:
+  multigrid-net:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local
+  benchmark-results:
+    driver: local
+  docs-output:
+    driver: local
+  test-results:
+    driver: local
