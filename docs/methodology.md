@@ -46,7 +46,7 @@ for sufficiently smooth solutions, where $C$ is a constant independent of $h$.
 
 The multigrid method uses a hierarchy of grids to efficiently solve the linear system:
 
-![Multigrid Grid Hierarchy](images/multigrid_hierarchy.png)
+![Multigrid Grid Hierarchy]({{ '/assets/images/multigrid_hierarchy.png' | relative_url }})
 
 *Figure 1: Multigrid grid hierarchy showing the coarsening process from fine grid (h) to coarsest grid (8h). Red points represent grid nodes, with blue highlighting special nodes.*
 
@@ -60,7 +60,7 @@ V-Cycle Algorithm:
 6. Post-smooth: Apply ν₂ iterations of smoother
 ```
 
-![V-Cycle Algorithm Flowchart](images/v_cycle_flowchart.png)
+![V-Cycle Algorithm Flowchart]({{ '/assets/images/v_cycle_flowchart.png' | relative_url }})
 
 *Figure 2: V-Cycle multigrid algorithm flowchart showing the complete process from initial guess to corrected solution, including decision points and recursive structure.*
 
@@ -197,7 +197,7 @@ $$\rho_W \leq \rho_{TG}$$
 
 The W-cycle performs two recursive calls at each level, providing better convergence at increased computational cost.
 
-![Multigrid Convergence Analysis](images/convergence_analysis.png)
+![Multigrid Convergence Analysis]({{ '/assets/images/convergence_analysis.png' | relative_url }})
 
 *Figure 3: Comprehensive convergence analysis showing (a) two-grid convergence factors vs. frequency, (b) residual reduction comparison between different iterative methods, (c) smoothing property demonstration, and (d) V-cycle work complexity analysis.*
 
@@ -408,7 +408,7 @@ Ensure $\kappa_p(\mathbf{A}) \epsilon_p < 1$ throughout computation.
 
 $$\text{Kahan Sum: } s = s + (x - ((s + x) - s))$$
 
-![Mixed-Precision Strategy Analysis](images/precision_strategy.png)
+![Mixed-Precision Strategy Analysis]({{ '/assets/images/precision_strategy.png' | relative_url }})
 
 *Figure 4: Mixed-precision strategy analysis showing (a) IEEE 754 precision comparison, (b) error evolution in mixed-precision computation, (c) precision switching criteria, and (d) cost-benefit optimization for determining optimal switch points.*
 
@@ -662,7 +662,7 @@ Subject to constraints:
 - Interconnect bandwidth: $BW_{required} \leq BW_{available}$
 - Power budget: $P \times P_{gpu} \leq P_{max}$
 
-![Performance Modeling and Scalability](images/performance_scaling.png)
+![Performance Modeling and Scalability]({{ '/assets/images/performance_scaling.png' | relative_url }})
 
 *Figure 5: Performance modeling and scalability analysis showing (a) computational complexity comparison between different solution methods, (b) memory bandwidth requirements for different precisions, (c) GPU occupancy analysis, and (d) strong scaling efficiency with communication overhead.*
 

@@ -25,25 +25,25 @@ This project presents a comprehensive framework for solving partial differential
 <div class="results-grid">
   <div class="result-card">
     <h3>GPU Acceleration</h3>
-    <div class="metric">{{ site.benchmarks.cpu_gpu_speedup }}</div>
-    <p>Average speedup over CPU implementation</p>
+    <div class="metric">{{ site.data.benchmarks.cpu_gpu_speedup }}</div>
+    <p>Maximum speedup over CPU implementation</p>
   </div>
   
   <div class="result-card">
     <h3>Mixed Precision</h3>
-    <div class="metric">{{ site.benchmarks.mixed_precision_speedup }}</div>
+    <div class="metric">{{ site.data.benchmarks.mixed_precision_speedup }}</div>
     <p>Performance gain with mixed precision</p>
   </div>
   
   <div class="result-card">
     <h3>Memory Savings</h3>
-    <div class="metric">{{ site.benchmarks.memory_savings }}</div>
+    <div class="metric">{{ site.data.benchmarks.memory_savings }}</div>
     <p>Reduction in memory usage</p>
   </div>
   
   <div class="result-card">
     <h3>Convergence</h3>
-    <div class="metric">{{ site.benchmarks.convergence_rate }}</div>
+    <div class="metric">{{ site.data.benchmarks.convergence_rate }}</div>
     <p>Optimal theoretical convergence rate</p>
   </div>
 </div>
@@ -59,10 +59,10 @@ Our framework successfully solves:
 
 ## Performance Highlights
 
-![Convergence Analysis](assets/images/convergence_comparison.png)
+![Convergence Analysis]({{ '/assets/images/convergence_analysis.png' | relative_url }})
 *Grid convergence study showing optimal O(h²) convergence rates across different problem types*
 
-![CPU vs GPU Performance](assets/images/cpu_gpu_comparison.png)  
+![CPU vs GPU Performance]({{ '/assets/images/performance_scaling.png' | relative_url }})  
 *Performance comparison demonstrating significant GPU acceleration for large-scale problems*
 
 ## Mathematical Foundation
@@ -95,22 +95,22 @@ print(f"Validation pass rate: {results.passed_tests/results.total_tests:.1%}")
 
 <div class="nav-cards">
   <div class="nav-card">
-    <h3><a href="/about/">About</a></h3>
+    <h3><a href="{{ '/about/' | relative_url }}">About</a></h3>
     <p>Project motivation, objectives, and scope</p>
   </div>
   
   <div class="nav-card">
-    <h3><a href="/methodology/">Methodology</a></h3>
+    <h3><a href="{{ '/methodology/' | relative_url }}">Methodology</a></h3>
     <p>Mathematical formulation and algorithmic details</p>
   </div>
   
   <div class="nav-card">
-    <h3><a href="/results/">Results</a></h3>
+    <h3><a href="{{ '/results/' | relative_url }}">Results</a></h3>
     <p>Performance benchmarks and validation studies</p>
   </div>
   
   <div class="nav-card">
-    <h3><a href="/conclusion/">Conclusion</a></h3>
+    <h3><a href="{{ '/conclusion/' | relative_url }}">Conclusion</a></h3>
     <p>Summary of findings and future directions</p>
   </div>
 </div>

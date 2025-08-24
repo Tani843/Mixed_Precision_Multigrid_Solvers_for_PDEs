@@ -5,8 +5,8 @@ title: "Mixed-Precision Multigrid Solvers for PDEs"
 description: >-
   High-performance numerical methods combining multigrid techniques with
   mixed-precision arithmetic for efficient PDE solving on modern hardware.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/Mixed_Precision_Multigrid_Solvers_for_PDEs" # CRITICAL: project site subpath
+url: "https://tani843.github.io" # the base hostname & protocol for your site
 
 # Author information
 author:
@@ -36,7 +36,7 @@ collections:
     output: true
     permalink: /:name/
 
-# Navigation menu
+# Navigation menu - will use relative_url in templates
 navigation:
   - title: "Home"
     url: /
@@ -108,12 +108,7 @@ mathjax:
 project:
   name: "Mixed-Precision Multigrid Solvers"
   version: "1.0.0"
-  github_repo: "https://github.com/username/Mixed_Precision_Multigrid_Solvers_for_PDEs"
-  documentation: "https://username.github.io/Mixed_Precision_Multigrid_Solvers_for_PDEs"
+  github_repo: "https://github.com/tani843/Mixed_Precision_Multigrid_Solvers_for_PDEs"
+  documentation: "https://tani843.github.io/Mixed_Precision_Multigrid_Solvers_for_PDEs"
   
-# Performance benchmarks (will be updated with actual results)
-benchmarks:
-  cpu_gpu_speedup: "3.2x"
-  mixed_precision_speedup: "1.8x"
-  memory_savings: "45%"
-  convergence_rate: "O(h²)"
+# NOTE: benchmarks moved to _data/benchmarks.yml for proper data separation
