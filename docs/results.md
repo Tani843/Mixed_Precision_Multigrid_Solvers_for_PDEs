@@ -14,7 +14,7 @@ This section presents comprehensive validation results, performance benchmarks, 
 
 Our systematic validation using the Method of Manufactured Solutions demonstrates optimal convergence rates across multiple problem types with rigorous statistical analysis.
 
-![Grid Convergence Analysis](assets/images/grid_convergence_study.png)
+![Grid Convergence Analysis]({{ '/assets/images/convergence_analysis.png' | relative_url }})
 *Grid convergence analysis showing O(h²) convergence for Poisson and heat equation solvers across different problem complexities*
 
 #### Detailed Convergence Rate Analysis
@@ -143,7 +143,7 @@ We validated our results against established benchmark solutions from literature
 
 ### Multigrid Convergence Analysis
 
-![Residual Convergence](assets/images/multigrid_convergence.png)
+![Residual Convergence]({{ '/assets/images/convergence_analysis.png' | relative_url }})
 *Residual convergence histories demonstrating optimal multigrid performance with convergence factors ρ ≈ 0.1*
 
 #### Detailed Convergence Factor Analysis
@@ -270,7 +270,7 @@ The convergence factors are well within the theoretical bounds for optimal multi
 | Bilinear Prolongation | 15.7 | 4.1 | 3.83× | 85.7% |
 | Residual Computation | 28.9 | 7.6 | 3.80× | 89.4% |
 
-![CPU vs GPU Performance Matrices](assets/images/cpu_gpu_performance.png)
+![CPU vs GPU Performance Matrices]({{ '/assets/images/performance_scaling.png' | relative_url }})
 *Comprehensive performance comparison showing significant GPU acceleration for large-scale problems*
 
 ### Scalability Plots with Regression Analysis
@@ -310,7 +310,7 @@ The convergence factors are well within the theoretical bounds for optimal multi
 - All-reduce operations: O(log p) scaling
 - Memory contention effects beyond 8 GPUs
 
-![Scaling Analysis with Regression](assets/images/scaling_analysis.png)
+![Scaling Analysis with Regression]({{ '/assets/images/performance_scaling.png' | relative_url }})
 *Weak and strong scaling studies with detailed regression analysis and confidence intervals*
 
 #### Performance Model Validation
@@ -365,7 +365,7 @@ The convergence factors are well within the theoretical bounds for optimal multi
 
 ### Performance vs Accuracy Trade-offs
 
-![Mixed Precision Analysis](assets/images/mixed_precision_tradeoffs.png)
+![Mixed Precision Analysis]({{ '/assets/images/precision_strategy.png' | relative_url }})
 *Performance-accuracy analysis showing optimal trade-offs for mixed-precision approaches*
 
 #### Precision Comparison
@@ -391,7 +391,7 @@ The mixed-precision approach achieves:
 
 ### Time Integration Performance
 
-![Heat Equation Analysis](assets/images/heat_equation_performance.png)
+![Heat Equation Analysis]({{ '/assets/images/performance_scaling.png' | relative_url }})
 *Heat equation solver performance with different time integration methods*
 
 #### Time Integration Comparison
@@ -430,7 +430,7 @@ Our comprehensive validation suite includes:
 
 ### Error Analysis
 
-![Error Analysis](assets/images/error_component_analysis.png)
+![Error Analysis]({{ '/assets/images/convergence_analysis.png' | relative_url }})
 *Decomposition of total error into discretization, iteration, and roundoff components*
 
 The error analysis shows:
@@ -442,7 +442,7 @@ The error analysis shows:
 
 ### Memory Efficiency
 
-![Memory Usage](assets/images/memory_analysis.png)
+![Memory Usage]({{ '/assets/images/performance_scaling.png' | relative_url }})
 *Memory usage patterns for different solver configurations and problem sizes*
 
 #### Memory Scaling

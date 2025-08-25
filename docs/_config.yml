@@ -1,119 +1,22 @@
-# Jekyll Configuration for Mixed-Precision Multigrid Solvers
-
-# Site settings
-title: "Mixed-Precision Multigrid Solvers for PDEs"
-description: >-
-  High-performance numerical methods combining multigrid techniques with
-  mixed-precision arithmetic for efficient PDE solving on modern hardware.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-
-# Author information
-author:
-  name: "Research Team"
-  email: "contact@example.com"
-
-# Build settings
-markdown: kramdown
-highlighter: rouge
+title: Mixed-Precision Multigrid Solvers for PDEs
+description: High-performance multigrid + mixed-precision methods on CPU/GPU for elliptic PDEs.
 theme: minima
 
-# Kramdown settings for mathematical notation
-kramdown:
-  math_engine: mathjax
-  syntax_highlighter: rouge
-  input: GFM
+url: "https://tani843.github.io"
+baseurl: "/Mixed_Precision_Multigrid_Solvers_for_PDEs"  # IMPORTANT
 
-# Plugins
+markdown: kramdown
 plugins:
-  - jekyll-feed
-  - jekyll-sitemap
+  - jekyll-relative-links
   - jekyll-seo-tag
 
-# Collections
-collections:
-  pages:
-    output: true
-    permalink: /:name/
+relative_links:
+  enabled: true
+  collections: true
 
-# Navigation menu
-navigation:
-  - title: "Home"
-    url: /
-  - title: "About"
-    url: /about/
-  - title: "Methodology"
-    url: /methodology/
-  - title: "Results"
-    url: /results/
-  - title: "Conclusion"
-    url: /conclusion/
-  - title: "Contact"
-    url: /contact/
-
-# Default layouts
+# Ensure assets paths are stable
 defaults:
   - scope:
       path: ""
-      type: "pages"
     values:
-      layout: "default"
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-
-# Social media and external links
-github_username: your-username
-linkedin_username: your-profile
-
-# Google Analytics (optional)
-# google_analytics: UA-XXXXXXXX-X
-
-# Exclude from processing
-exclude:
-  - .gitignore
-  - .git/
-  - vendor/
-  - Gemfile
-  - Gemfile.lock
-  - node_modules/
-  - README.md
-
-# Include custom assets
-include:
-  - _pages/
-  - assets/
-
-# Sass settings
-sass:
-  sass_dir: assets/css
-  style: compressed
-
-# Pagination
-paginate: 5
-paginate_path: "/page:num/"
-
-# SEO settings
-lang: en_US
-locale: en_US
-
-# MathJax configuration
-mathjax:
-  source: https://polyfill.io/v3/polyfill.min.js?features=es6
-  config: 'MathJax = {tex: {inlineMath: [["$", "$"], ["\\(", "\\)"]], displayMath: [["$$", "$$"], ["\\[", "\\]"]]}, svg: {fontCache: "global"}};'
-
-# Custom variables for the theme
-project:
-  name: "Mixed-Precision Multigrid Solvers"
-  version: "1.0.0"
-  github_repo: "https://github.com/username/Mixed_Precision_Multigrid_Solvers_for_PDEs"
-  documentation: "https://username.github.io/Mixed_Precision_Multigrid_Solvers_for_PDEs"
-  
-# Performance benchmarks (will be updated with actual results)
-benchmarks:
-  cpu_gpu_speedup: "3.2x"
-  mixed_precision_speedup: "1.8x"
-  memory_savings: "45%"
-  convergence_rate: "O(h²)"
+      layout: default

@@ -1,0 +1,4 @@
+cpu_gpu_speedup: "12.4×"
+mixed_precision_speedup: "2.1×"
+memory_savings: "48%"
+convergence_rate: "O(h^2)"

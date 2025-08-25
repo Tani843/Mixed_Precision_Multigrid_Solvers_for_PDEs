@@ -22,31 +22,10 @@ This project presents a comprehensive framework for solving partial differential
 
 ## Quick Results
 
-<div class="results-grid">
-  <div class="result-card">
-    <h3>GPU Acceleration</h3>
-    <div class="metric">{{ site.benchmarks.cpu_gpu_speedup }}</div>
-    <p>Average speedup over CPU implementation</p>
-  </div>
-  
-  <div class="result-card">
-    <h3>Mixed Precision</h3>
-    <div class="metric">{{ site.benchmarks.mixed_precision_speedup }}</div>
-    <p>Performance gain with mixed precision</p>
-  </div>
-  
-  <div class="result-card">
-    <h3>Memory Savings</h3>
-    <div class="metric">{{ site.benchmarks.memory_savings }}</div>
-    <p>Reduction in memory usage</p>
-  </div>
-  
-  <div class="result-card">
-    <h3>Convergence</h3>
-    <div class="metric">{{ site.benchmarks.convergence_rate }}</div>
-    <p>Optimal theoretical convergence rate</p>
-  </div>
-</div>
+**GPU Acceleration:** {{ site.data.benchmarks.cpu_gpu_speedup }} average speedup  
+**Mixed Precision Gain:** {{ site.data.benchmarks.mixed_precision_speedup }}  
+**Memory Savings:** {{ site.data.benchmarks.memory_savings }}  
+**Convergence:** {{ site.data.benchmarks.convergence_rate }}
 
 ## Applications
 
@@ -59,11 +38,11 @@ Our framework successfully solves:
 
 ## Performance Highlights
 
-![Convergence Analysis](assets/images/convergence_comparison.png)
-*Grid convergence study showing optimal O(h²) convergence rates across different problem types*
+![Precision Strategy]({{ '/assets/images/precision_strategy.png' | relative_url }})
+*Mixed-precision strategy showing optimal performance/accuracy trade-offs*
 
-![CPU vs GPU Performance](assets/images/cpu_gpu_comparison.png)  
-*Performance comparison demonstrating significant GPU acceleration for large-scale problems*
+![Performance Scaling]({{ '/assets/images/performance_scaling.svg' | relative_url }})
+*Scaling analysis demonstrating GPU acceleration and multi-precision efficiency*
 
 ## Mathematical Foundation
 
@@ -93,27 +72,10 @@ print(f"Validation pass rate: {results.passed_tests/results.total_tests:.1%}")
 
 ## Navigation
 
-<div class="nav-cards">
-  <div class="nav-card">
-    <h3><a href="/about/">About</a></h3>
-    <p>Project motivation, objectives, and scope</p>
-  </div>
-  
-  <div class="nav-card">
-    <h3><a href="/methodology/">Methodology</a></h3>
-    <p>Mathematical formulation and algorithmic details</p>
-  </div>
-  
-  <div class="nav-card">
-    <h3><a href="/results/">Results</a></h3>
-    <p>Performance benchmarks and validation studies</p>
-  </div>
-  
-  <div class="nav-card">
-    <h3><a href="/conclusion/">Conclusion</a></h3>
-    <p>Summary of findings and future directions</p>
-  </div>
-</div>
+- [About]({{ '/about/' | relative_url }})
+- [Methodology]({{ '/methodology/' | relative_url }})
+- [Results]({{ '/results/' | relative_url }})
+- [Conclusion]({{ '/conclusion/' | relative_url }})
 
 ## Latest Updates
 
@@ -126,12 +88,12 @@ print(f"Validation pass rate: {results.passed_tests/results.total_tests:.1%}")
 ---
 
 <div class="project-info">
-  <p><strong>Version:</strong> {{ site.project.version }} | 
+  <p><strong>Version:</strong> 1.0.0 | 
      <strong>License:</strong> MIT | 
      <strong>Status:</strong> Production Ready</p>
   
   <p>
-    <a href="{{ site.project.github_repo }}" class="btn btn-primary">View on GitHub</a>
-    <a href="{{ site.project.documentation }}" class="btn btn-secondary">Documentation</a>
+    <a href="https://github.com/tani843/Mixed_Precision_Multigrid_Solvers_for_PDEs" class="btn btn-primary">View on GitHub</a>
+    <a href="{{ '/' | relative_url }}" class="btn btn-secondary">Documentation</a>
   </p>
 </div>
