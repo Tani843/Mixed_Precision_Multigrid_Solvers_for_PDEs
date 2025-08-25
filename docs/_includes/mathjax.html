@@ -1,0 +1,51 @@
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js">
+</script>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    tags: 'ams',
+    macros: {
+      mathcal: ["\\mathcal{#1}", 1],
+      mathbb: ["\\mathbb{#1}", 1],
+      mathbf: ["\\mathbf{#1}", 1],
+      frac: ["\\frac{#1}{#2}", 2],
+      sqrt: ["\\sqrt{#1}", 1],
+      leq: "\\leq",
+      geq: "\\geq",
+      times: "\\times",
+      cdot: "\\cdot",
+      approx: "\\approx",
+      infty: "\\infty",
+      partial: "\\partial",
+      nabla: "\\nabla",
+      Delta: "\\Delta",
+      Omega: "\\Omega",
+      alpha: "\\alpha",
+      lambda: "\\lambda",
+      rho: "\\rho",
+      epsilon: "\\epsilon",
+      text: ["\\text{#1}", 1]
+    }
+  },
+  options: {
+    ignoreHtmlClass: "tex2jax_ignore",
+    processHtmlClass: "tex2jax_process"
+  }
+};
+</script>
+
+<style>
+.MathJax_Display {
+  text-align: center !important;
+  margin: 1em 0 !important;
+}
+.MathJax {
+  font-size: 1.1em !important;
+}
+</style>
