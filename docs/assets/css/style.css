@@ -96,7 +96,31 @@ a:hover {
 }
 
 .site-nav {
-  margin-top: 1rem;
+  margin: 1.5rem 0;
+}
+
+.nav-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-link {
+  color: #555;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #333;
+  border-bottom-color: #2563eb;
+  text-decoration: none;
 }
 
 .site-nav ul {

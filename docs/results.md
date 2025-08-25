@@ -1,7 +1,6 @@
 ---
 layout: default
 title: Results
-permalink: /results/
 ---
 
 # Results and Performance Analysis

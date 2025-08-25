@@ -1,28 +1,77 @@
-title: Mixed-Precision Multigrid Solvers for PDEs
+# Site settings
+title: "Mixed-Precision Multigrid Solvers for PDEs"
+description: "High-performance GPU-accelerated multigrid methods with rigorous mathematical foundation"
+author: "Tanisha Gupta"
+email: your.email@domain.com
+
+# GitHub Pages configuration
 url: "https://tani843.github.io"
 baseurl: "/Mixed_Precision_Multigrid_Solvers_for_PDEs"
 
-plugins:
-  - jekyll-relative-links
-  - jekyll-seo-tag
-
-defaults:
-  - scope: { path: "" }
-    values: { layout: default }
-
-# Mathematical Rendering Configuration
+# Build settings
 markdown: kramdown
 kramdown:
   math_engine: mathjax
-  syntax_highlighter: rouge
   input: GFM
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
 
-# MathJax settings
-mathjax: true
-
-# Plugins
+# GitHub Pages supported plugins only
 plugins:
-  - jekyll-relative-links
   - jekyll-seo-tag
-  - jekyll-feed
-  - jekyll-sitemap
+  - jekyll-relative-links
+
+# Relative links configuration
+relative_links:
+  enabled: true
+  collections: false
+
+# Collections (if needed)
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "docs"
+    values:
+      layout: "default"
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+  - sphinx/
+  - generate_mathematical_diagrams.py
+  - validate_mathematical_content.py
+
+# Include files starting with underscore (if needed)
+include:
+  - _pages
+
+# Sass configuration
+sass:
+  sass_dir: _sass
+  style: compressed

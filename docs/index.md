@@ -5,10 +5,7 @@ title: Mixed-Precision Multigrid Solvers
 
 # Mixed-Precision Multigrid Solvers for PDEs
 
-## Navigation
-- [Home](index.html)
-- [Methodology](methodology.html) ✅ **COMPLETE**
-- [MathJax Test](math_test.html) *(Verification)*
+Welcome to our comprehensive research project on high-performance GPU-accelerated multigrid methods with rigorous mathematical foundations.
 
 ## Project Status: 100% Complete! 🎉
 

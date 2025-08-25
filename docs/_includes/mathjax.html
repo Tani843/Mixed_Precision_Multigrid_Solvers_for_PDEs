@@ -1,7 +1,3 @@
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js">
-</script>
-
 <script>
 window.MathJax = {
   tex: {
@@ -10,34 +6,39 @@ window.MathJax = {
     processEscapes: true,
     processEnvironments: true,
     tags: 'ams',
+    packages: {'[+]': ['ams', 'newcommand', 'configMacros']},
     macros: {
       mathcal: ["\\mathcal{#1}", 1],
       mathbb: ["\\mathbb{#1}", 1],
       mathbf: ["\\mathbf{#1}", 1],
-      frac: ["\\frac{#1}{#2}", 2],
-      sqrt: ["\\sqrt{#1}", 1],
-      leq: "\\leq",
-      geq: "\\geq",
-      times: "\\times",
-      cdot: "\\cdot",
-      approx: "\\approx",
-      infty: "\\infty",
-      partial: "\\partial",
       nabla: "\\nabla",
+      partial: "\\partial",
       Delta: "\\Delta",
       Omega: "\\Omega",
       alpha: "\\alpha",
       lambda: "\\lambda",
       rho: "\\rho",
       epsilon: "\\epsilon",
-      text: ["\\text{#1}", 1]
+      leq: "\\leq",
+      geq: "\\geq"
     }
   },
   options: {
     ignoreHtmlClass: "tex2jax_ignore",
     processHtmlClass: "tex2jax_process"
+  },
+  startup: {
+    pageReady: () => {
+      return MathJax.startup.defaultPageReady().then(() => {
+        console.log('MathJax initial typesetting complete');
+      });
+    }
   }
 };
+</script>
+
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
 
 <style>
@@ -47,5 +48,10 @@ window.MathJax = {
 }
 .MathJax {
   font-size: 1.1em !important;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  text-align: center;
+  margin: 1em 0;
 }
 </style>

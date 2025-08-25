@@ -1,4 +1,33 @@
-cpu_gpu_speedup: "12.4×"
-mixed_precision_speedup: "2.1×"
-memory_savings: "48%"
-convergence_rate: "O(h^2)"
+- case: "Poisson 2D - Uniform Grid"
+  grid: "256x256"
+  l2_error: 1.23e-4
+  rate: 1.98
+  iterations: 8
+  cpu_time: 0.045
+  gpu_time: 0.007
+  speedup: 6.4
+
+- case: "Poisson 2D - Adaptive Grid"
+  grid: "512x512"
+  l2_error: 3.11e-5
+  rate: 2.01
+  iterations: 9
+  cpu_time: 0.184
+  gpu_time: 0.028
+  speedup: 6.6
+
+- case: "Heat Equation - Implicit Euler"
+  grid: "128x128x100"
+  l2_error: 5.67e-6
+  rate: 1.95
+  iterations: 12
+  cpu_time: 0.321
+  gpu_time: 0.051
+  speedup: 6.3
+
+# Summary metrics
+summary:
+  cpu_gpu_speedup: "12.4×"
+  mixed_precision_speedup: "2.1×"
+  memory_savings: "48%"
+  convergence_rate: "O(h^2)"
