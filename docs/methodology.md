@@ -570,7 +570,14 @@ For a kernel with:
 - Registers per thread: $R_{thread}$
 
 **Theoretical Occupancy:**
-$$O_{theo} = \min\left\{ \frac{M_{max}}{M}, \frac{W_{max}}{W}, \frac{S_{max}}{S_{block}}, \frac{R_{max}}{B \times R_{thread}} \right\}$$
+$$
+O_{theo} = \min\left( 
+   \frac{M_{max}}{M}, \;
+   \frac{W_{max}}{W}, \;
+   \frac{S_{max}}{S_{block}}, \;
+   \frac{R_{max}}{B \times R_{thread}}
+\right)
+$$
 
 where:
 - $M_{max}$: Max blocks per SM
