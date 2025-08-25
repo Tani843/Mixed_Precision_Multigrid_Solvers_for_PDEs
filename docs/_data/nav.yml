@@ -1,0 +1,15 @@
+primary:
+  - { label: "Home",         url: "/" }
+  - { label: "Methodology",  url: "/methodology/" }
+  - { label: "Results",      url: "/results/" }
+  - { label: "Contact",      url: "/contact/" }
+more:
+  - { label: "About",                         url: "/about/" }
+  - { label: "Conclusion",                    url: "/conclusion/" }
+  - { label: "Advanced Visualization",        url: "/advanced_visualization/" }
+  - { label: "Tools",                         url: "/tools/" }
+  - { label: "Installation Guide",            url: "/installation/" }
+  - { label: "Performance Optimization Report", url: "/performance_optimization/" }
+  - { label: "Real-time Solver Monitoring",   url: "/realtime_dashboard/" }
+  - { label: "Dashboard",                     url: "/dashboard/" }
+  - { label: "Troubleshooting Guide",         url: "/troubleshooting/" }

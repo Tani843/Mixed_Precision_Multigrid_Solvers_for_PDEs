@@ -1,22 +1,11 @@
 title: Mixed-Precision Multigrid Solvers for PDEs
-description: High-performance multigrid + mixed-precision methods on CPU/GPU for elliptic PDEs.
-theme: minima
-
 url: "https://tani843.github.io"
-baseurl: "/Mixed_Precision_Multigrid_Solvers_for_PDEs"  # IMPORTANT
+baseurl: "/Mixed_Precision_Multigrid_Solvers_for_PDEs"
 
-markdown: kramdown
 plugins:
   - jekyll-relative-links
   - jekyll-seo-tag
 
-relative_links:
-  enabled: true
-  collections: true
-
-# Ensure assets paths are stable
 defaults:
-  - scope:
-      path: ""
-    values:
-      layout: default
+  - scope: { path: "" }
+    values: { layout: default }
