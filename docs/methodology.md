@@ -18,7 +18,7 @@ $$\mathcal{L}u = f \quad \text{in } \Omega \subset \mathbb{R}^d$$
 
 where $\mathcal{L}$ is a second-order elliptic differential operator. For the Poisson equation:
 
-$$\mathcal{L} = -\nabla^2 = -\left(\frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2}\right)$$
+L=−∇2=−(∂x2∂2​+∂y2∂2​)
 
 ### Discrete Formulation
 
