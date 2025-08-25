@@ -1,69 +1,93 @@
 ---
 layout: default
-title: Methodology
+title: "Methodology"
 ---
 
-# Methodology
+## Mathematical Framework
 
-This section details the mathematical formulation, algorithmic design, and implementation strategies for mixed-precision multigrid solvers.
+### Problem Formulation
 
-## Mathematical Formulation
-
-### Problem Statement
-We consider the general elliptic boundary value problem:
+We consider elliptic boundary value problems:
 
 $$\mathcal{L}u = f \quad \text{in } \Omega \subset \mathbb{R}^d$$
 
-where $\mathcal{L}$ is a second-order elliptic differential operator. For the Poisson equation:
+where $\mathcal{L}$ is a second-order elliptic differential operator.
 
-$$\mathcal{L} = -\nabla^2 = -\left(\frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2}\right)$$
+### Discretization
 
-### Discrete Formulation
-
-Using finite differences on a uniform grid with spacing $h$, the discrete Laplacian becomes:
-
+Using finite differences with grid spacing $h$:
 $$\mathcal{L}_h u_{i,j} = \frac{1}{h^2}[u_{i+1,j} + u_{i-1,j} + u_{i,j+1} + u_{i,j-1} - 4u_{i,j}]$$
 
-This leads to the linear system:
+## Multigrid Algorithm
 
-$$\mathbf{A}_h \mathbf{u}_h = \mathbf{f}_h$$
+### V-Cycle Method
 
-where $\mathbf{A}_h$ is the discrete operator matrix.
-
-### Error Analysis
-
-The discretization error satisfies:
-
-$$\|u - u_h\|_{L^2} \leq Ch^2\|u\|_{H^2}$$
-
-for sufficiently smooth solutions, where $C$ is a constant independent of $h$.
-
-## Multigrid Method
-
-### Basic Algorithm
-
-The multigrid method uses a hierarchy of grids to efficiently solve the linear system:
-
-**V-Cycle Algorithm:**
-1. **Pre-smooth:** Apply $\nu_1$ iterations of a smoother (e.g., Gauss-Seidel)
-2. **Restrict:** $r_{2h} = I_{2h}^h r^h$ (transfer residual to coarser grid)
-3. **Solve:** $A_{2h} e_{2h} = r_{2h}$ (recursive or direct solve)
-4. **Interpolate:** $e^h = I_h^{2h} e_{2h}$ (transfer correction to fine grid)
-5. **Correct:** $u^h \leftarrow u^h + e^h$
-6. **Post-smooth:** Apply $\nu_2$ iterations of smoother
+**Algorithm Steps**:
+1. **Pre-smooth**: Apply $\nu_1$ smoothing iterations
+2. **Restrict**: Transfer residual to coarse grid  
+3. **Solve**: Recursive coarse grid solution
+4. **Prolong**: Interpolate correction to fine grid
+5. **Correct**: Update fine grid solution
+6. **Post-smooth**: Apply $\nu_2$ smoothing iterations
 
 ### Convergence Theory
-For the V-cycle multigrid method, the convergence factor satisfies:
+**Two-Grid Analysis**: The convergence factor satisfies:
 
-$$\|\mathbf{e}^{(k+1)}\|_{\mathbf{A}_h} \leq \rho_V \|\mathbf{e}^{(k)}\|_{\mathbf{A}_h}$$
+$$\rho_{TG} = \|T_{TG}\|_{\mathcal{A}_h} < 1$$
 
-where the V-cycle convergence factor is: 
+**V-Cycle Bound**: 
 
 $$\rho_V \leq \frac{2\rho_{TG}}{1 + \rho_{TG}}$$
 
----
+## Mixed-Precision Strategy
 
-*Note: This is Phase 2 - Basic formulation complete. More sections will be added in subsequent phases.*
+### Precision Formats
+
+| Format | Precision | Machine ε | Range |
+|--------|-----------|-----------|-------|
+| FP32 | 23 bits | $2^{-23}$ | $10^{±38}$ |
+| FP64 | 52 bits | $2^{-52}$ | $10^{±308}$ |
+
+### Adaptive Algorithm
+**Switching Criteria**: Promote precision when:
+- Residual reaches switching threshold: $\|\mathbf{r}\| \leq \tau_s$
+- Convergence stagnation detected
+- Numerical instability indicators present
+
+### Error Analysis
+
+Total error decomposition:
+$$\mathbf{e}_{total} = \mathbf{e}_{disc} + \mathbf{e}_{iter} + \mathbf{e}_{round}^{32} + \mathbf{e}_{round}^{64} + \mathbf{e}_{conv}$$
+
+## GPU Implementation
+
+### CUDA Optimization
+
+**Occupancy Theory**: Maximize GPU utilization through:
+- Optimal thread block sizes
+- Shared memory utilization  
+- Coalesced memory access patterns
+- Kernel fusion techniques
+
+### Performance Model
+
+Execution time: $T = \max\{T_{compute}, T_{memory}, T_{latency}\}$
+
+## Validation Framework
+
+### Method of Manufactured Solutions
+
+**Process**:
+1. Choose exact solution: $u_{exact}(x,y)$
+2. Compute source term: $f = -\nabla^2 u_{exact}$  
+3. Solve numerically and compute errors
+4. Verify convergence rates
+
+### Statistical Analysis
+
+- Multiple grid sizes: $h = 1/16, 1/32, 1/64, ...$
+- Confidence intervals on convergence rates
+- Regression analysis with R² validation
 
 ### Two-Grid Analysis with Convergence Proofs
 

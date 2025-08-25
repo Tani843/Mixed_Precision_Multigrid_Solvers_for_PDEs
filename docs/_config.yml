@@ -1,29 +1,22 @@
-# Site settings
 title: "Mixed-Precision Multigrid Solvers for PDEs"
-description: "High-performance GPU-accelerated multigrid methods with mathematical rigor"
-
-# GitHub Pages settings
+description: "High-performance GPU-accelerated multigrid methods"
 url: "https://tani843.github.io"
 baseurl: "/Mixed_Precision_Multigrid_Solvers_for_PDEs"
 
-# Build settings
 markdown: kramdown
 kramdown:
   math_engine: mathjax
   input: GFM
 
-# GitHub Pages supported plugins only
 plugins:
   - jekyll-seo-tag
 
-# Defaults
 defaults:
   - scope:
       path: ""
     values:
       layout: "default"
 
-# Exclude
 exclude:
   - README.md
   - Gemfile
