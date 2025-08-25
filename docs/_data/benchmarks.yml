@@ -24,10 +24,3 @@
   cpu_time: 0.321
   gpu_time: 0.051
   speedup: 6.3
-
-# Summary metrics
-summary:
-  cpu_gpu_speedup: "12.4×"
-  mixed_precision_speedup: "2.1×"
-  memory_savings: "48%"
-  convergence_rate: "O(h^2)"
