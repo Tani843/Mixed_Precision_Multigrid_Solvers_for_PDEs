@@ -469,7 +469,13 @@ Total work: $W_{total} = m \cdot W_V = O(N \log(\tau^{-1}))$
 **Two-Grid Convergence Factor:**
 From spectral analysis, the two-grid convergence factor is:
 
-$$\rho_{TG} = \max_{\omega} \left\{ \max_{|k_j h| \leq \pi/2} |S_j(\omega)|, \max_{|k_j h| > \pi/2} |T_j(\omega)| \right\}$$
+$$
+\rho_{TG} = \max_{\omega} 
+\left\{ 
+   \max_{|k_j h| \leq \pi/2} |S_j(\omega)|,\;
+   \max_{|k_j h| > \pi/2} |T_j(\omega)| 
+\right\}
+$$
 
 where:
 - $S_j(\omega)$: Smoothing factor for frequency mode $j$
