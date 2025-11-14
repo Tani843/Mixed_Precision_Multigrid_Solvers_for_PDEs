@@ -13,7 +13,7 @@ title: "Contact"
 
 For questions, collaborations, or inquiries regarding this Mixed-Precision Multigrid Solvers project:
 
-**Email**: [Your Email Here]  
+**Email**: tanishagupta008@gmail.com 
 **GitHub**: [https://github.com/Tani843](https://github.com/Tani843)  
 **Repository**: [Mixed_Precision_Multigrid_Solvers_for_PDEs](https://github.com/Tani843/Mixed_Precision_Multigrid_Solvers_for_PDEs)
 
@@ -38,31 +38,15 @@ For questions, collaborations, or inquiries regarding this Mixed-Precision Multi
 - Numerical methods training and education
 - Computational framework development
 
-## Publication Status
+## Manuscript in Preparation
 
-This work is prepared for submission to top-tier computational mathematics journals including:
+This upcoming work is currently in early development and will be prepared for submission to leading journals in computational mathematics, including:
 - SIAM Journal on Scientific Computing
-- Journal of Computational Physics  
+- Journal of Computational Physics
 - Computer Physics Communications
 - IEEE Transactions on Parallel and Distributed Systems
 
-## Citation
 
-If you use this work in your research, please cite:
-
-\`\`\`
-Gupta, T. (2025). Mixed-Precision Multigrid Solvers for PDEs: 
-GPU-Accelerated Methods with Rigorous Mathematical Analysis. 
-[Software]. GitHub. https://github.com/Tani843/Mixed_Precision_Multigrid_Solvers_for_PDEs
-\`\`\`
-
-## Technical Support
-
-For technical questions about implementation:
-- **Issues**: Use GitHub Issues for bug reports and feature requests
-- **Discussions**: GitHub Discussions for general questions
-- **Documentation**: Complete API documentation available in repository
-- **Examples**: Tutorial notebooks provided for learning and testing
 
 ## Licensing
 
@@ -76,9 +60,9 @@ Contact for specific licensing questions and commercial use arrangements.
 ---
 
 **Professional Network**:
-- **LinkedIn**: [Your LinkedIn Profile]
-- **ResearchGate**: [Your ResearchGate Profile]  
-- **ORCID**: [Your ORCID ID]
-- **Google Scholar**: [Your Google Scholar Profile]
+- **LinkedIn**: https://www.linkedin.com/in/tanishagupta008/
+ 
+- **ORCID**: https://orcid.org/0009-0002-9122-9080
+- **Google Scholar**: https://scholar.google.com/citations?user=QYQqZZgAAAAJ&hl=en
 
 *Thank you for your interest in this computational mathematics research.*
